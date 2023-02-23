@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { useFormProgressStore } from "@/stores/formProgress";
 import { ref } from "vue";
 import { z } from "zod";
 import { formSteps } from "../types/formSteps";
 import ProgressStep from "./ProgressStep.vue";
 
-const currentStep = ref(0);
+const progressStore = useFormProgressStore();
 </script>
 
 <template>
@@ -14,7 +15,7 @@ const currentStep = ref(0);
         v-for="(step, index) in formSteps"
         class="text-primary-white text-lg"
       >
-        <ProgressStep :step="step" :is-active-step="index === currentStep" />
+        <ProgressStep :step="step" :is-active-step="index === progressStore.currentStep" />
       </div>
     </div>
   </aside>
