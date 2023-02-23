@@ -2,11 +2,20 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 
 export const useFormProgressStore = defineStore("formProgress", () => {
-  const currentStep = ref(0);
+  const currentStep = ref(1);
 
   const completeStep = (): void => {
-    currentStep.value = currentStep.value > 3  ? currentStep.value++ : 3;
+    console.log("Current Step", currentStep.value + 1)
+    if (currentStep.value < 4) {
+      currentStep.value +=1
+    }
   } 
 
-  return { currentStep, completeStep }
+  const previousStep = (): void => {
+    if (currentStep.value > 1) {
+      currentStep.value -=1
+    }
+  }
+
+  return { currentStep, completeStep, previousStep }
 });

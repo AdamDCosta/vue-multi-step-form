@@ -6,9 +6,11 @@ import { useFormProgressStore } from "@/stores/formProgress";
 </script>
 <template>
   <main class="w-screen h-screen bg-neutral-magnolia">
-    <div class="h-full flex flex-col border-r-2 bg-neutral-alabaster">
+    <div class="h-full flex flex-col border-r-2 bg-neutral-magnolia">
       <FormProgress />
-      <MultStepForm :steps="4"/>
+      <MultStepForm :steps="4">
+        
+      </MultStepForm>
     </div>
   </main>
 </template>
