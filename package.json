@@ -15,7 +15,8 @@
     "pinia": "^2.0.28",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6",
-    "zod": "^3.20.6"
+    "zod": "^3.20.6",
+    "zod-validation-error": "^0.3.2"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.4",
