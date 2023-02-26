@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useFormProgressStore } from "@/stores/formProgress";
-import { computed, TransitionGroup } from "vue";
+import { computed, TransitionGroup, watch } from "vue";
 import FormButton from "./FormButton.vue";
 
 const props = defineProps<{ steps: number }>();
@@ -10,8 +10,6 @@ const progressStore = useFormProgressStore();
 const buttonText = computed(() => {
   return progressStore.currentStep === props.steps ? "Confirm" : "Next Step";
 });
-
-
 
 
 </script>

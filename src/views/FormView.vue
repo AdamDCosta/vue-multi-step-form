@@ -3,13 +3,10 @@ import FormProgress from "@/components/FormProgress.vue";
 import MultStepForm from "@/components/MultStepForm.vue";
 import TextInput from "@/components/TextInput.vue";
 import { formStepOne } from "@/types/formSteps";
-import { ref } from "vue";
+import { useFormProgressStore } from "@/stores/formProgress";
 
-const userInput = ref<Record<string, string>>({
-  name: "",
-  email: "",
-  phoneNumber: "",
-})
+
+const progressStore = useFormProgressStore();
 
 
 </script>
@@ -31,7 +28,7 @@ const userInput = ref<Record<string, string>>({
                 :type="input.type"
                 :label="input.label"
                 :placeholder="input.information"
-                v-model="userInput[`${input.vModel}`]"
+                v-model="progressStore.userInput[`${input.vModel}`]"
               />
             </div>
           </template>

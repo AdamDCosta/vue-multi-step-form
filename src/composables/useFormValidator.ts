@@ -1,13 +1,13 @@
-import type { TextInputType } from "@/types/formSteps";
-import { z, ZodError } from "zod";
-import { ValidationError, isValidationErrorLike, fromZodError } from 'zod-validation-error';
+import { ref } from "vue";
+import { z, type ZodFormattedError } from "zod";
 
 const name = z
   .string({
     required_error: "Name is required",
     invalid_type_error: "Name must be a string",
   })
-  .trim();
+  .trim()
+  .min(2, { message: "Name must be at least 2 characters" });
 
 const email = z
   .string({
@@ -16,9 +16,12 @@ const email = z
   .email({ message: "Invalid email address" })
   .trim();
 
-const phoneNumber = z.string({
-  required_error: "Phone no is required",
-});
+const phoneNumber = z
+  .string({
+    required_error: "Phone no is required",
+  })
+  .trim()
+  .min(2, { message: "This field is required" });
 
 export const inputSchema = z.object({
   name: name,
@@ -28,19 +31,23 @@ export const inputSchema = z.object({
 
 export type InputSchema = z.infer<typeof inputSchema>;
 
-export const useFormValidator = (inputs: InputSchema): void => {
-  // parse some invalid value
-try {
-  inputSchema.parse({
-    name: 1,
-    email: 'foobar', // note: invalid email
-    phoneNumber
+export type FormErrors = ZodFormattedError<{ name: string; email: string; phoneNumber: string; }, string>
+
+export const useFormValidator = (input: InputSchema) => {
+  const isValid = ref(false);
+  const errors = ref<FormErrors>();
+
+  const result = inputSchema.safeParse({
+    name: input.name,
+    email: input.email,
+    phoneNumber: input.phoneNumber,
   });
-} catch (err) {
-  const validationError = fromZodError(err as ZodError);
-  // the error now is readable by the user
-  // you may print it to console
-  // or return it via an API
-  console.log("Error", validationError);
+
+  isValid.value = result.success;
+
+  if (!result.success) {
+    errors.value = result.error.format();
+  }
+
+  return { isValid, errors };
 };
-}
